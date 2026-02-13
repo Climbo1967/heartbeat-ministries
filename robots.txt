@@ -1,0 +1,7 @@
+# Heartbeat Ministries — robots.txt
+
+
+User-agent: *
+Allow: /
+
+Sitemap: https://www.heartbeat-ministries.com/sitemap.xml
