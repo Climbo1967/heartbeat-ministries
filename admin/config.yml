@@ -1,0 +1,98 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  # ── Daily Scripture ──
+  - name: "scripture"
+    label: "Daily Scripture"
+    folder: "content/scripture"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}"
+    summary: "{{fields.reference}} — {{fields.date}}"
+    sortable_fields: ['date']
+    fields:
+      - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Scripture Text", name: "text", widget: "text" }
+      - { label: "Book & Verse Reference", name: "reference", widget: "string" }
+      - { label: "Translation", name: "translation", widget: "select", options: ["NIV", "ESV", "KJV", "NKJV", "NLT", "NASB"], default: "NIV" }
+      - { label: "Devotional Thought (Optional)", name: "devotional", widget: "text", required: false }
+      - { label: "Related Prayer (Optional)", name: "prayer", widget: "text", required: false }
+
+  # ── Inspiration Cards ──
+  - name: "inspiration"
+    label: "Inspiration Cards"
+    folder: "content/inspiration"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "text" }
+      - { label: "Category Tag", name: "tag", widget: "string", required: false, hint: "e.g. Encouragement, Hope, Peace" }
+      - { label: "Order", name: "order", widget: "number", default: 0, hint: "Lower numbers appear first" }
+
+  # ── Blog Posts ──
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{fields.title}} — {{fields.date}}"
+    sortable_fields: ['date', 'title']
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Category", name: "category", widget: "select", options: ["Faith", "Prayer", "Scripture", "Peace", "Encouragement", "Hope", "Trust"], default: "Faith" }
+      - { label: "Excerpt", name: "excerpt", widget: "text", hint: "Short description shown on blog listing" }
+      - { label: "Icon Emoji", name: "icon", widget: "string", default: "✝️", hint: "Emoji shown on the blog card" }
+      - { label: "Read Time", name: "readTime", widget: "string", default: "5 min read" }
+      - { label: "Featured Image", name: "thumbnail", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, hint: "Set to true to hide from the live site" }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false, hint: "Shown in Google search results. Keep under 160 characters." }
+
+  # ── Hero Section ──
+  - name: "hero"
+    label: "Hero Section"
+    files:
+      - name: "hero-settings"
+        label: "Hero Settings"
+        file: "content/settings/hero.json"
+        fields:
+          - { label: "Eyebrow Text", name: "eyebrow", widget: "string", default: "Scripture · Prayer · Encouragement" }
+          - { label: "Main Headline", name: "headline", widget: "string", default: "Hope you can see" }
+          - { label: "Subheadline", name: "subheadline", widget: "text" }
+          - { label: "Featured Verse Text", name: "verse_text", widget: "string", default: "You are the light of the world" }
+          - { label: "Featured Verse Reference", name: "verse_ref", widget: "string", default: "Matthew 5:14" }
+
+  # ── About / Mission ──
+  - name: "about"
+    label: "About / Mission"
+    files:
+      - name: "about-settings"
+        label: "About Settings"
+        file: "content/settings/about.json"
+        fields:
+          - { label: "Mission Text", name: "mission", widget: "text" }
+          - { label: "Mission Tags (comma-separated)", name: "tags", widget: "string", default: "Scripture-first, Prayer-supported, Community-minded" }
+          - { label: "Contact Email", name: "email", widget: "string", default: "support@2bcreations.com" }
+          - { label: "Additional Info", name: "additional", widget: "text", required: false }
+
+  # ── Games Settings ──
+  - name: "games"
+    label: "Games Settings"
+    files:
+      - name: "games-settings"
+        label: "Active Games"
+        file: "content/settings/games.json"
+        fields:
+          - { label: "Bible Trivia", name: "trivia", widget: "boolean", default: true }
+          - { label: "Memory Verse Challenge", name: "memory_verse", widget: "boolean", default: true }
+          - { label: "Crossword Puzzle", name: "crossword", widget: "boolean", default: true }
+          - { label: "Word Scramble", name: "word_scramble", widget: "boolean", default: true }
+          - { label: "Who Am I?", name: "who_am_i", widget: "boolean", default: true }
+          - { label: "Fill in the Blank", name: "fill_blank", widget: "boolean", default: true }
+          - { label: "Word Search", name: "word_search", widget: "boolean", default: true }
