@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.heartbeat-ministries.com/sitemap.xml
+Sitemap: https://heartbeat-ministries.com/sitemap.xml
