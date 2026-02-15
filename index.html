@@ -1261,7 +1261,7 @@
     /* ── Footer year ── */
     document.getElementById('year').textContent = new Date().getFullYear();
     /* ── Scripture rotator ── */
-    const verses = [
+    var verses = [
       {
         ref: "Matthew 5:14",
         text: "\u201CYou are the light of the world. A city set on a hill cannot be hidden.\u201D",
@@ -1287,12 +1287,12 @@
         prayer: "\u201CFather, strengthen me where I feel weak. Help me stay faithful and steady. Amen.\u201D"
       }
     ];
-    let verseIndex = 0;
-    const verseRef = document.getElementById('verseRef');
-    const verseText = document.getElementById('verseText');
-    const verseThought = document.getElementById('verseThought');
-    const quickPrayer = document.getElementById('quickPrayer');
-    const verseCounter = document.getElementById('verseCounter');
+    var verseIndex = 0;
+    var verseRef = document.getElementById('verseRef');
+    var verseText = document.getElementById('verseText');
+    var verseThought = document.getElementById('verseThought');
+    var quickPrayer = document.getElementById('quickPrayer');
+    var verseCounter = document.getElementById('verseCounter');
     function renderVerse() {
       const v = verses[verseIndex];
       verseRef.textContent = v.ref;
@@ -1531,6 +1531,53 @@
         document.getElementById('gitSuccess').classList.add('show');
       }
     });
+  </script>
+  <script>
+    /* ── CMS Data Loader ── */
+    (async function loadCmsData() {
+      try {
+        const res = await fetch('/cms-data.json');
+        if (!res.ok) return;
+        const cms = await res.json();
+
+        // Update scriptures if CMS has them
+        if (cms.scriptures && cms.scriptures.length > 0 && typeof verses !== 'undefined') {
+          const cmsVerses = cms.scriptures.map(s => ({
+            ref: s.ref,
+            text: '\u201C' + s.text + '\u201D',
+            thought: s.thought || 'Take a moment to reflect on this verse today.',
+            prayer: s.prayer ? ('\u201C' + s.prayer + '\u201D') : ''
+          }));
+          // Replace the verses array and re-render
+          verses.length = 0;
+          cmsVerses.forEach(v => verses.push(v));
+          if (typeof renderVerse === 'function') {
+            verseIndex = 0;
+            verseCounter.textContent = '1 / ' + verses.length;
+            renderVerse();
+          }
+        }
+
+        // Update inspiration cards if CMS has them
+        if (cms.inspirations && cms.inspirations.length > 0) {
+          const grid = document.getElementById('inspireGrid');
+          if (grid) {
+            grid.innerHTML = cms.inspirations.map((item, i) =>
+              '<div class="inspire-card reveal visible">' +
+              '<span class="num">0' + (i + 1) + '</span>' +
+              '<h3>' + esc(item.title) + '</h3>' +
+              '<p>' + esc(item.text) + '</p>' +
+              '<div class="tags"><span class="tag tag-gold">' + esc(item.tag) + '</span></div>' +
+              '</div>'
+            ).join('');
+          }
+        }
+
+      } catch(e) {
+        // CMS data not available, site works with hardcoded content
+        console.log('CMS data not loaded, using defaults');
+      }
+    })();
   </script>
   <script>
     if (window.netlifyIdentity) {
