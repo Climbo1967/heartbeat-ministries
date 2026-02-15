@@ -70,7 +70,7 @@ module.exports = function(eleventyConfig) {
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .map(s => ({
         title: s.title || '',
-        text: s.body || '',
+        text: s._body || s.body || '',
         tag: s.tag || ''
       }));
 
