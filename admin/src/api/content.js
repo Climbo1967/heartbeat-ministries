@@ -13,7 +13,10 @@ function wrapYaml(pairs, body) {
     } else if (typeof val === 'number') {
       yaml += key + ': ' + val + '\n';
     } else {
-      yaml += key + ': ' + String(val) + '\n';
+      // Replace newlines with spaces — the .eleventy.js parser is line-based
+      // and would truncate multiline values to the first line
+      const safe = String(val).replace(/\r?\n/g, ' ').replace(/\s+/g, ' ').trim();
+      yaml += key + ': ' + safe + '\n';
     }
   }
   yaml += '---\n';

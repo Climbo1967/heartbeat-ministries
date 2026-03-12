@@ -13,17 +13,23 @@
     {
       "title": "Grace in Weakness",
       "text": "God's power is made perfect in weakness. Your struggles are not disqualifications — they're invitations for grace to show up in powerful ways.",
-      "tag": "Encouragement"
+      "tag": "Encouragement",
+      "order": 1,
+      "_slug": "grace-in-weakness"
     },
     {
       "title": "Be Still",
       "text": "In a world that never stops moving, God says, 'Be still and know.' Take a moment. Breathe. Let God be God. Listen for Him and you will know His Presence.",
-      "tag": "Peace"
+      "tag": "Peace",
+      "order": 2,
+      "_slug": "be-still"
     },
     {
       "title": "You Are Seen",
       "text": "When the world feels too loud and you feel invisible, remember: the God who counts the stars also knows your name.",
-      "tag": "Hope"
+      "tag": "Hope",
+      "order": 3,
+      "_slug": "you-are-seen"
     }
   ],
   "posts": [],
@@ -60,7 +66,9 @@
       ],
       "ans": 1,
       "ref": "Genesis 1-2",
-      "explain": "God created the world in six days and rested on the seventh."
+      "explain": "God created the world in six days and rested on the seventh.",
+      "order": 1,
+      "_slug": "creation-days"
     },
     {
       "q": "Who built the ark?",
@@ -72,7 +80,9 @@
       ],
       "ans": 2,
       "ref": "Genesis 6-9",
-      "explain": "God instructed Noah to build an ark to survive the great flood."
+      "explain": "God instructed Noah to build an ark to survive the great flood.",
+      "order": 2,
+      "_slug": "noahs-ark"
     },
     {
       "q": "What is the first book of the Bible?",
@@ -84,7 +94,9 @@
       ],
       "ans": 1,
       "ref": "Genesis 1:1",
-      "explain": "Genesis means 'beginning' — it's the first book of the Bible."
+      "explain": "Genesis means 'beginning' — it's the first book of the Bible.",
+      "order": 3,
+      "_slug": "first-book"
     },
     {
       "q": "How many disciples did Jesus have?",
@@ -96,7 +108,9 @@
       ],
       "ans": 2,
       "ref": "Matthew 10:1-4",
-      "explain": "Jesus chose twelve apostles to follow Him and spread the Gospel."
+      "explain": "Jesus chose twelve apostles to follow Him and spread the Gospel.",
+      "order": 4,
+      "_slug": "twelve-disciples"
     },
     {
       "q": "Who was swallowed by a great fish?",
@@ -108,7 +122,9 @@
       ],
       "ans": 0,
       "ref": "Jonah 1:17",
-      "explain": "Jonah was swallowed by a great fish after fleeing from God's command."
+      "explain": "Jonah was swallowed by a great fish after fleeing from God's command.",
+      "order": 5,
+      "_slug": "jonah-fish"
     },
     {
       "q": "What are the first four books of the New Testament called?",
@@ -120,7 +136,9 @@
       ],
       "ans": 2,
       "ref": "Matthew, Mark, Luke, John",
-      "explain": "The four Gospels tell the story of Jesus' life, death, and resurrection."
+      "explain": "The four Gospels tell the story of Jesus' life, death, and resurrection.",
+      "order": 6,
+      "_slug": "four-gospels"
     },
     {
       "q": "Who killed Goliath?",
@@ -132,7 +150,9 @@
       ],
       "ans": 2,
       "ref": "1 Samuel 17",
-      "explain": "Young David defeated the giant Goliath with a sling and a stone."
+      "explain": "Young David defeated the giant Goliath with a sling and a stone.",
+      "order": 7,
+      "_slug": "david-goliath"
     },
     {
       "q": "What did God create on the first day?",
@@ -144,7 +164,9 @@
       ],
       "ans": 1,
       "ref": "Genesis 1:3",
-      "explain": "God said 'Let there be light,' and there was light."
+      "explain": "God said 'Let there be light,' and there was light.",
+      "order": 8,
+      "_slug": "first-day-creation"
     },
     {
       "q": "Who was the first man?",
@@ -156,7 +178,9 @@
       ],
       "ans": 3,
       "ref": "Genesis 2:7",
-      "explain": "God formed Adam from the dust of the ground and breathed life into him."
+      "explain": "God formed Adam from the dust of the ground and breathed life into him.",
+      "order": 9,
+      "_slug": "first-man"
     },
     {
       "q": "What is the longest book in the Bible?",
@@ -168,7 +192,9 @@
       ],
       "ans": 2,
       "ref": "Psalms has 150 chapters",
-      "explain": "The Book of Psalms contains 150 chapters, making it the longest book."
+      "explain": "The Book of Psalms contains 150 chapters, making it the longest book.",
+      "order": 10,
+      "_slug": "longest-book"
     },
     {
       "q": "Who parted the Red Sea?",
@@ -180,7 +206,9 @@
       ],
       "ans": 1,
       "ref": "Exodus 14",
-      "explain": "God parted the Red Sea through Moses to deliver Israel from Egypt."
+      "explain": "God parted the Red Sea through Moses to deliver Israel from Egypt.",
+      "order": 11,
+      "_slug": "red-sea"
     },
     {
       "q": "What was the name of Jesus' mother?",
@@ -192,7 +220,9 @@
       ],
       "ans": 2,
       "ref": "Luke 1:30-31",
-      "explain": "The angel Gabriel told Mary she would bear a son and name Him Jesus."
+      "explain": "The angel Gabriel told Mary she would bear a son and name Him Jesus.",
+      "order": 12,
+      "_slug": "jesus-mother"
     },
     {
       "q": "How many books are in the Bible?",
@@ -204,7 +234,9 @@
       ],
       "ans": 2,
       "ref": "39 OT + 27 NT",
-      "explain": "The Bible has 66 books — 39 in the Old Testament and 27 in the New Testament."
+      "explain": "The Bible has 66 books — 39 in the Old Testament and 27 in the New Testament.",
+      "order": 13,
+      "_slug": "bible-books-count"
     },
     {
       "q": "Who denied Jesus three times?",
@@ -216,7 +248,9 @@
       ],
       "ans": 2,
       "ref": "Luke 22:54-62",
-      "explain": "Peter denied knowing Jesus three times before the rooster crowed, just as Jesus foretold."
+      "explain": "Peter denied knowing Jesus three times before the rooster crowed, just as Jesus foretold.",
+      "order": 14,
+      "_slug": "peter-denial"
     },
     {
       "q": "Where was Jesus born?",
@@ -228,7 +262,9 @@
       ],
       "ans": 2,
       "ref": "Matthew 2:1",
-      "explain": "Jesus was born in Bethlehem of Judea, fulfilling Old Testament prophecy."
+      "explain": "Jesus was born in Bethlehem of Judea, fulfilling Old Testament prophecy.",
+      "order": 15,
+      "_slug": "jesus-birthplace"
     },
     {
       "q": "What is the shortest verse in the Bible?",
@@ -240,7 +276,9 @@
       ],
       "ans": 0,
       "ref": "John 11:35",
-      "explain": "\\\"Jesus wept\\\" (John 11:35) is the shortest verse in the English Bible."
+      "explain": "\\\"Jesus wept\\\" (John 11:35) is the shortest verse in the English Bible.",
+      "order": 16,
+      "_slug": "shortest-verse"
     },
     {
       "q": "Who was thrown into a den of lions?",
@@ -252,7 +290,9 @@
       ],
       "ans": 1,
       "ref": "Daniel 6",
-      "explain": "Daniel was thrown into the lions' den for praying to God, but God shut the lions' mouths."
+      "explain": "Daniel was thrown into the lions' den for praying to God, but God shut the lions' mouths.",
+      "order": 17,
+      "_slug": "daniel-lions"
     },
     {
       "q": "What are the Ten Commandments also called?",
@@ -264,7 +304,9 @@
       ],
       "ans": 1,
       "ref": "Exodus 20",
-      "explain": "The Ten Commandments are also known as the Decalogue, meaning 'ten words.'"
+      "explain": "The Ten Commandments are also known as the Decalogue, meaning 'ten words.'",
+      "order": 18,
+      "_slug": "ten-commandments"
     },
     {
       "q": "Who wrote most of the Psalms?",
@@ -276,7 +318,9 @@
       ],
       "ans": 2,
       "ref": "Various Psalms",
-      "explain": "King David is credited with writing approximately 73 of the 150 Psalms."
+      "explain": "King David is credited with writing approximately 73 of the 150 Psalms.",
+      "order": 19,
+      "_slug": "psalms-author"
     },
     {
       "q": "What is the last book of the Bible?",
@@ -288,49 +332,67 @@
       ],
       "ans": 2,
       "ref": "Revelation 22:21",
-      "explain": "The Book of Revelation, written by John, is the final book of the Bible."
+      "explain": "The Book of Revelation, written by John, is the final book of the Bible.",
+      "order": 20,
+      "_slug": "last-book"
     }
   ],
   "memoryVerses": [
     {
       "ref": "John 3:16",
       "text": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
-      "difficulty": "easy"
+      "difficulty": "easy",
+      "order": 1,
+      "_slug": "john-3-16"
     },
     {
       "ref": "Philippians 4:13",
       "text": "I can do all things through Christ who strengthens me.",
-      "difficulty": "easy"
+      "difficulty": "easy",
+      "order": 2,
+      "_slug": "philippians-4-13"
     },
     {
       "ref": "Psalm 23:1",
       "text": "The Lord is my shepherd; I shall not want.",
-      "difficulty": "easy"
+      "difficulty": "easy",
+      "order": 3,
+      "_slug": "psalm-23-1"
     },
     {
       "ref": "Proverbs 3:5",
       "text": "Trust in the Lord with all your heart and lean not on your own understanding.",
-      "difficulty": "medium"
+      "difficulty": "medium",
+      "order": 4,
+      "_slug": "proverbs-3-5"
     },
     {
       "ref": "Romans 8:28",
       "text": "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
-      "difficulty": "medium"
+      "difficulty": "medium",
+      "order": 5,
+      "_slug": "romans-8-28"
     },
     {
       "ref": "Isaiah 40:31",
       "text": "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
-      "difficulty": "hard"
+      "difficulty": "hard",
+      "order": 6,
+      "_slug": "isaiah-40-31"
     },
     {
       "ref": "Matthew 5:14",
       "text": "You are the light of the world. A city set on a hill cannot be hidden.",
-      "difficulty": "easy"
+      "difficulty": "easy",
+      "order": 7,
+      "_slug": "matthew-5-14"
     },
     {
       "ref": "Jeremiah 29:11",
       "text": "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.",
-      "difficulty": "hard"
+      "difficulty": "hard",
+      "order": 8,
+      "_slug": "jeremiah-29-11"
     }
   ]
 }

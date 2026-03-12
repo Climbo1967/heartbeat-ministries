@@ -108,7 +108,9 @@ module.exports = function(eleventyConfig) {
       .map(s => ({
         title: s.title || '',
         text: s._body || s.body || '',
-        tag: s.tag || ''
+        tag: s.tag || '',
+        order: s.order || 0,
+        _slug: s._slug || ''
       }));
 
     const posts = readMdFiles('blog')
@@ -122,6 +124,7 @@ module.exports = function(eleventyConfig) {
         icon: p.icon || '',
         date: p.date || '',
         readTime: p.readTime || '5 min read',
+        thumbnail: p.thumbnail || '',
         body: p._body || '',
         bodyHtml: p._body ? marked(p._body) : ''
       }));
@@ -133,7 +136,9 @@ module.exports = function(eleventyConfig) {
         opts: Array.isArray(t.opts) ? t.opts : [],
         ans: typeof t.ans === 'number' ? t.ans : 0,
         ref: t.ref || '',
-        explain: t.explain || ''
+        explain: t.explain || '',
+        order: t.order || 0,
+        _slug: t._slug || ''
       }));
 
     const memoryVerses = readMdFiles('memory-verse')
@@ -141,7 +146,9 @@ module.exports = function(eleventyConfig) {
       .map(v => ({
         ref: v.ref || '',
         text: v.text || '',
-        difficulty: v.difficulty || 'easy'
+        difficulty: v.difficulty || 'easy',
+        order: v.order || 0,
+        _slug: v._slug || ''
       }));
 
     const hero = readJsonFile('settings/hero.json');

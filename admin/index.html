@@ -41,16 +41,19 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="bundle.js"></script>
   <script>
-    // Wait for Netlify Identity to initialize
-    netlifyIdentity.on('init', function(user) {
-      if (user) {
-        document.getElementById('auth-gate').style.display = 'none';
-        HeartbeatAdmin.mount(document.getElementById('admin-root'));
-      }
-    });
-    netlifyIdentity.on('login', function(user) {
+    // Wait for Netlify Identity to initialize (guard against double-mount)
+    var mounted = false;
+    function mountAdmin() {
+      if (mounted) return;
+      mounted = true;
       document.getElementById('auth-gate').style.display = 'none';
       HeartbeatAdmin.mount(document.getElementById('admin-root'));
+    }
+    netlifyIdentity.on('init', function(user) {
+      if (user) mountAdmin();
+    });
+    netlifyIdentity.on('login', function(user) {
+      mountAdmin();
     });
     netlifyIdentity.on('logout', function() {
       window.location.reload();

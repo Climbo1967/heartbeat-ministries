@@ -17,7 +17,7 @@ function utf8ToBase64(str) {
 
 // UTF-8 safe base64 decode
 function base64ToUtf8(b64) {
-  const binary = atob(b64);
+  const binary = atob(b64.replace(/\s/g, ''));
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) {
     bytes[i] = binary.charCodeAt(i);

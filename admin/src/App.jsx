@@ -337,7 +337,7 @@ function ScripturePanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update scripture ' + dateStr);
-      toast('Scripture saved! Site rebuilding...');
+      toast('Scripture saved! Saved to GitHub.');
       setEditing(null);
       setTimeout(loadScriptures, 2000);
     } catch (e) {
@@ -455,7 +455,7 @@ function InspirationPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update inspiration: ' + form.title);
-      toast('Inspiration saved! Site rebuilding...');
+      toast('Inspiration saved! Saved to GitHub.');
       setEditing(null);
       setTimeout(loadItems, 2000);
     } catch (e) {
@@ -544,6 +544,7 @@ function BlogPanel({ toast }) {
       icon: post ? post.icon : '✝️',
       readTime: post ? post.readTime : '5 min read',
       body: post ? post.body : '',
+      thumbnail: post ? post.thumbnail : '',
       draft: post ? post.draft : false,
       seo_description: post ? post.seo_description : '',
       _slug: post ? post.slug : ''
@@ -562,7 +563,7 @@ function BlogPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update blog: ' + form.title);
-      toast('Blog post saved! Site rebuilding...');
+      toast('Blog post saved! Saved to GitHub.');
       setEditing(null);
       setTimeout(loadPosts, 2000);
     } catch (e) {
@@ -610,6 +611,10 @@ function BlogPanel({ toast }) {
               <label className="form-label">Read Time</label>
               <input className="form-input" value={form.readTime || ''} onChange={e => setForm({...form, readTime: e.target.value})} />
             </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Thumbnail URL</label>
+            <input className="form-input" value={form.thumbnail || ''} onChange={e => setForm({...form, thumbnail: e.target.value})} placeholder="https://..." />
           </div>
           <div className="form-group">
             <label className="form-label">Body (Markdown)</label>
@@ -762,7 +767,7 @@ function HeroPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update hero settings');
-      toast('Hero section saved! Site rebuilding...');
+      toast('Hero section saved! Saved to GitHub.');
     } catch (e) {
       toast('Error: ' + e.message);
     }
@@ -830,7 +835,7 @@ function AboutPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update about settings');
-      toast('About section saved! Site rebuilding...');
+      toast('About section saved! Saved to GitHub.');
     } catch (e) {
       toast('Error: ' + e.message);
     }
