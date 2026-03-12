@@ -1,6 +1,5 @@
 [build]
-  command = "npm install && node build-admin.js && npx @11ty/eleventy"
-  publish = "_site"
+  publish = "."
 
 [build.environment]
   NODE_VERSION = "18"
