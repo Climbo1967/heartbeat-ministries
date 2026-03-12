@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && npx @11ty/eleventy"
+  command = "npm install && node build-admin.js && npx @11ty/eleventy"
   publish = "_site"
 
 [build.environment]
