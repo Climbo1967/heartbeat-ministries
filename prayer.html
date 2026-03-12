@@ -121,7 +121,7 @@
   </div>
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
-document.getElementById('prayerForm').addEventListener('submit', function(e) {
+document.getElementById('prayerForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   var formData = new FormData(this);
   var name = formData.get('name') || '';
@@ -131,18 +131,23 @@ document.getElementById('prayerForm').addEventListener('submit', function(e) {
   var urgent = formData.get('urgent') === 'on';
 
   // Save to Supabase so admin panel can see it
-  var SB_URL = 'https://qtugmhjvpghlhmthnzog.supabase.co';
-  var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0dWdtaGp2cGdobGhtdGhuem9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NTIzMjEsImV4cCI6MjA4NTQyODMyMX0.aEj3zIF8yJj0Gf1fxbp1O1Uv3Opd-qDaa5CocXEuCc4';
-  fetch(SB_URL + '/rest/v1/prayer_requests', {
-    method: 'POST',
-    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-    body: JSON.stringify({ name: name, email: email, request: request, privacy: privacy, urgent: urgent })
-  }).catch(function() {});
+  try {
+    var SB_URL = 'https://qtugmhjvpghlhmthnzog.supabase.co';
+    var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0dWdtaGp2cGdobGhtdGhuem9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NTIzMjEsImV4cCI6MjA4NTQyODMyMX0.aEj3zIF8yJj0Gf1fxbp1O1Uv3Opd-qDaa5CocXEuCc4';
+    var sbRes = await fetch(SB_URL + '/rest/v1/prayer_requests', {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ name: name, email: email, request: request, privacy: privacy, urgent: urgent })
+    });
+    if (!sbRes.ok) console.error('Supabase error:', sbRes.status, await sbRes.text());
+  } catch (err) { console.error('Supabase fetch failed:', err); }
 
   // Also submit to Netlify Forms (triggers email notification)
-  fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(formData).toString() })
-  .then(function() { document.getElementById('formCard').style.display = 'none'; document.getElementById('successMsg').classList.add('show'); })
-  .catch(function() { alert('Something went wrong. Please try again.'); });
+  try {
+    await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(formData).toString() });
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('successMsg').classList.add('show');
+  } catch (err) { alert('Something went wrong. Please try again.'); }
 });
 </script>
 </body>
