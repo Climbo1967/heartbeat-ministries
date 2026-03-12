@@ -1415,6 +1415,22 @@
       saveStatus.textContent = 'Sending...';
       const submitBtn = prayerForm.querySelector('.submit-btn');
       submitBtn.disabled = true;
+      const nameVal = document.getElementById('name').value;
+      const emailVal = document.getElementById('email').value;
+      const privacyVal = document.getElementById('privacy').value;
+      const urgentVal = document.getElementById('urgent').checked;
+
+      // Save to Supabase so admin panel can see it
+      try {
+        const SB_URL = 'https://qtugmhjvpghlhmthnzog.supabase.co';
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0dWdtaGp2cGdobGhtdGhuem9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NTIzMjEsImV4cCI6MjA4NTQyODMyMX0.aEj3zIF8yJj0Gf1fxbp1O1Uv3Opd-qDaa5CocXEuCc4';
+        await fetch(SB_URL + '/rest/v1/prayer_requests', {
+          method: 'POST',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ name: nameVal, email: emailVal, request, privacy: privacyVal, urgent: urgentVal })
+        });
+      } catch (sbErr) { console.error('Supabase:', sbErr); }
+
       // Send to Netlify Forms (triggers email to support@2bcreations.com)
       try {
         const formData = new FormData(prayerForm);
@@ -1424,18 +1440,6 @@
           body: new URLSearchParams(formData).toString()
         });
         if (response.ok) {
-          // Also save locally for display
-          const items = loadRequests();
-          items.push({
-            id: cryptoId(),
-            ts: Date.now(),
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            privacy: document.getElementById('privacy').value,
-            urgent: document.getElementById('urgent').checked,
-            request
-          });
-          saveRequests(items);
           prayerForm.reset();
           saveStatus.textContent = '✅ Prayer request sent! We will be praying for you.';
           saveStatus.style.color = 'var(--green)';
@@ -1445,18 +1449,6 @@
           saveStatus.style.color = 'var(--red)';
         }
       } catch (err) {
-        // If offline or error, still save locally
-        const items = loadRequests();
-        items.push({
-          id: cryptoId(),
-          ts: Date.now(),
-          name: document.getElementById('name').value,
-          email: document.getElementById('email').value,
-          privacy: document.getElementById('privacy').value,
-          urgent: document.getElementById('urgent').checked,
-          request
-        });
-        saveRequests(items);
         prayerForm.reset();
         saveStatus.textContent = '📱 Saved locally (will send when online).';
         saveStatus.style.color = 'var(--gold)';
