@@ -130,21 +130,14 @@ document.getElementById('prayerForm').addEventListener('submit', async function(
   var privacy = formData.get('privacy') || 'private';
   var urgent = formData.get('urgent') === 'on';
 
-  // Save to Supabase so admin panel can see it
-  var sbOk = false;
+  // Save to Supabase via serverless function (server-side, no browser issues)
   try {
-    var SB_URL = 'https://qtugmhjvpghlhmthnzog.supabase.co';
-    var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0dWdtaGp2cGdobGhtdGhuem9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NTIzMjEsImV4cCI6MjA4NTQyODMyMX0.aEj3zIF8yJj0Gf1fxbp1O1Uv3Opd-qDaa5CocXEuCc4';
-    var sbRes = await fetch(SB_URL + '/rest/v1/prayer_requests', {
+    await fetch('/.netlify/functions/save-prayer', {
       method: 'POST',
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: name, email: email, request: request, privacy: privacy, urgent: urgent })
     });
-    var sbBody = await sbRes.text();
-    console.log('Supabase status:', sbRes.status, 'body:', sbBody);
-    if (!sbRes.ok) { console.error('Supabase error:', sbRes.status, sbBody); }
-    else { sbOk = true; }
-  } catch (err) { console.error('Supabase fetch failed:', err); }
+  } catch (e) { /* silent - email is primary */ }
 
   // Also submit to Netlify Forms (triggers email notification)
   try {
