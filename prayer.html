@@ -123,10 +123,26 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 document.getElementById('prayerForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  const formData = new FormData(this);
+  var formData = new FormData(this);
+  var name = formData.get('name') || '';
+  var email = formData.get('email') || '';
+  var request = formData.get('request') || '';
+  var privacy = formData.get('privacy') || 'private';
+  var urgent = formData.get('urgent') === 'on';
+
+  // Save to Supabase so admin panel can see it
+  var SB_URL = 'https://qtugmhjvpghlhmthnzog.supabase.co';
+  var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0dWdtaGp2cGdobGhtdGhuem9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NTIzMjEsImV4cCI6MjA4NTQyODMyMX0.aEj3zIF8yJj0Gf1fxbp1O1Uv3Opd-qDaa5CocXEuCc4';
+  fetch(SB_URL + '/rest/v1/prayer_requests', {
+    method: 'POST',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ name: name, email: email, request: request, privacy: privacy, urgent: urgent })
+  }).catch(function() {});
+
+  // Also submit to Netlify Forms (triggers email notification)
   fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(formData).toString() })
-  .then(() => { document.getElementById('formCard').style.display = 'none'; document.getElementById('successMsg').classList.add('show'); })
-  .catch(() => { alert('Something went wrong. Please try again.'); });
+  .then(function() { document.getElementById('formCard').style.display = 'none'; document.getElementById('successMsg').classList.add('show'); })
+  .catch(function() { alert('Something went wrong. Please try again.'); });
 });
 </script>
 </body>
