@@ -1421,15 +1421,17 @@
       const urgentVal = document.getElementById('urgent').checked;
 
       // Save to Supabase so admin panel can see it
+      console.log('[PRAYER] Starting Supabase save...');
       try {
         const SB_URL = 'https://qtugmhjvpghlhmthnzog.supabase.co';
         const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0dWdtaGp2cGdobGhtdGhuem9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NTIzMjEsImV4cCI6MjA4NTQyODMyMX0.aEj3zIF8yJj0Gf1fxbp1O1Uv3Opd-qDaa5CocXEuCc4';
-        await fetch(SB_URL + '/rest/v1/prayer_requests', {
+        const sbRes = await fetch(SB_URL + '/rest/v1/prayer_requests', {
           method: 'POST',
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
           body: JSON.stringify({ name: nameVal, email: emailVal, request, privacy: privacyVal, urgent: urgentVal })
         });
-      } catch (sbErr) { console.error('Supabase:', sbErr); }
+        console.log('[PRAYER] Supabase response:', sbRes.status, await sbRes.text());
+      } catch (sbErr) { console.error('[PRAYER] Supabase FAILED:', sbErr); }
 
       // Send to Netlify Forms (triggers email to support@2bcreations.com)
       try {
