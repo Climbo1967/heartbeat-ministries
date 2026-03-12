@@ -1,0 +1,6 @@
+---
+ref: "Matthew 5:14"
+text: "You are the light of the world. A city set on a hill cannot be hidden."
+difficulty: "easy"
+order: 7
+---

@@ -1573,6 +1573,67 @@
           }
         }
 
+        // Update hero section from CMS
+        if (cms.hero) {
+          const eyebrow = document.querySelector('.hero-eyebrow');
+          if (eyebrow && cms.hero.eyebrow) {
+            eyebrow.innerHTML = '<span class="dot"></span>\n' + esc(cms.hero.eyebrow);
+          }
+          const headline = document.querySelector('.hero-content h2');
+          if (headline && cms.hero.headline) {
+            headline.innerHTML = esc(cms.hero.headline).replace(/\s/, '<br>');
+          }
+          const sub = document.querySelector('.hero-sub');
+          if (sub && cms.hero.subheadline) {
+            sub.textContent = cms.hero.subheadline;
+          }
+          const heroVerse = document.querySelector('.hero-verse');
+          if (heroVerse && cms.hero.verse_text) {
+            heroVerse.innerHTML =
+              '<span>\u201C' + esc(cms.hero.verse_text) + '\u201D</span>' +
+              '<span class="divider"></span>' +
+              '<span style="color:var(--gold);">' + esc(cms.hero.verse_ref || '') + '</span>';
+          }
+        }
+
+        // Update about/mission section from CMS
+        if (cms.about) {
+          const missionP = document.querySelector('.about-card p');
+          if (missionP && cms.about.mission) {
+            missionP.textContent = cms.about.mission;
+          }
+          if (cms.about.tags) {
+            const tagIcons = [
+              '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+              '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+              '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+            ];
+            const tagsEl = document.querySelector('.mission-tags');
+            if (tagsEl) {
+              const tagList = cms.about.tags.split(',').map(t => t.trim()).filter(Boolean);
+              tagsEl.innerHTML = tagList.map((tag, i) =>
+                '<span class="mission-tag">' + (tagIcons[i] || '') + '\n' + esc(tag) + '</span>'
+              ).join('');
+            }
+          }
+        }
+
+        // Update blog preview from CMS
+        if (cms.posts && cms.posts.length > 0) {
+          const blogGrid = document.getElementById('blogGrid');
+          if (blogGrid) {
+            blogGrid.innerHTML = cms.posts.slice(0, 3).map((post, i) =>
+              '<a href="blog.html#' + esc(post.slug) + '" class="card blog-card reveal visible" style="text-decoration:none; color:inherit;">' +
+              '<div class="card-visual"><span class="icon-lg">' + (post.icon || '\u270E\uFE0F') + '</span></div>' +
+              '<div class="card-pad">' +
+              '<h3>' + esc(post.title) + '</h3>' +
+              '<p>' + esc(post.excerpt) + '</p>' +
+              '<div class="tags"><span class="tag tag-gold">' + esc(post.category) + '</span></div>' +
+              '</div></a>'
+            ).join('');
+          }
+        }
+
       } catch(e) {
         // CMS data not available, site works with hardcoded content
         console.log('CMS data not loaded, using defaults');

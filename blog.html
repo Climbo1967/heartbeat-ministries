@@ -676,6 +676,35 @@
       if (!window.location.hash) showListing();
       else checkHash();
     });
+
+    /* ── CMS Data Loader ── */
+    (async function loadCmsBlog() {
+      try {
+        const res = await fetch('/cms-data.json');
+        if (!res.ok) return;
+        const cms = await res.json();
+        if (cms.posts && cms.posts.length > 0) {
+          const defaultGradient = 'linear-gradient(135deg, rgba(212,168,75,.15), rgba(142,197,214,.08))';
+          const cmsPosts = cms.posts.map(p => ({
+            slug: p.slug || '',
+            title: p.title || '',
+            excerpt: p.excerpt || '',
+            category: p.category || 'Faith',
+            icon: p.icon || '✝️',
+            date: p.date ? new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '',
+            readTime: p.readTime || '5 min read',
+            gradient: defaultGradient,
+            content: p.bodyHtml || ('<p>' + esc(p.body || '') + '</p>')
+          }));
+          blogPosts.length = 0;
+          cmsPosts.forEach(p => blogPosts.push(p));
+          renderListing();
+          checkHash();
+        }
+      } catch(e) {
+        console.log('CMS blog data not loaded, using defaults');
+      }
+    })();
   </script>
 </body>
 </html>

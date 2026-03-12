@@ -6,8 +6,149 @@
   <meta name="robots" content="noindex" />
   <title>Admin — Heartbeat Ministries</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    /* ── Heartbeat Ministries Dark/Gold Admin Theme ── */
+    :root {
+      --hb-bg: #0f0d0b;
+      --hb-surface: #1a1612;
+      --hb-surface2: #231f1a;
+      --hb-border: rgba(212,168,75,.15);
+      --hb-gold: #d4a84b;
+      --hb-gold-bright: #f0c75e;
+      --hb-gold-dim: rgba(212,168,75,.12);
+      --hb-text: #e8e0d4;
+      --hb-text2: rgba(232,224,212,.65);
+    }
+
+    /* Global background + text */
+    body { background: var(--hb-bg) !important; color: var(--hb-text) !important; }
+
+    /* Top bar */
+    header, [class*="AppHeader"] {
+      background: var(--hb-surface) !important;
+      border-bottom: 1px solid var(--hb-border) !important;
+    }
+
+    /* Sidebar / nav */
+    [class*="SidebarNavList"], aside, nav {
+      background: var(--hb-surface) !important;
+    }
+    [class*="SidebarNavLink"], aside a, nav a {
+      color: var(--hb-text2) !important;
+    }
+    [class*="SidebarNavLink"]:hover, aside a:hover, nav a:hover,
+    [class*="SidebarNavLink"][class*="active"], aside a.active {
+      color: var(--hb-gold) !important;
+      background: var(--hb-gold-dim) !important;
+    }
+
+    /* Main content area */
+    main, [class*="MainView"], [id="nc-root"] > div {
+      background: var(--hb-bg) !important;
+    }
+
+    /* Cards, list items, entry rows */
+    [class*="ListCard"], [class*="EntryListing"],
+    [class*="ObjectControl"], [class*="ListItem"],
+    [class*="Card"], [class*="ControlPane"] {
+      background: var(--hb-surface) !important;
+      border-color: var(--hb-border) !important;
+      color: var(--hb-text) !important;
+    }
+
+    /* Inputs and textareas */
+    input, textarea, select, [class*="ControlInput"],
+    [class*="TextControl"], [contenteditable="true"] {
+      background: var(--hb-surface2) !important;
+      border: 1px solid var(--hb-border) !important;
+      color: var(--hb-text) !important;
+      border-radius: 6px !important;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--hb-gold) !important;
+      box-shadow: 0 0 0 2px var(--hb-gold-dim) !important;
+      outline: none !important;
+    }
+
+    /* Labels */
+    label, [class*="ControlLabel"], [class*="FieldLabel"] {
+      color: var(--hb-text2) !important;
+    }
+
+    /* Primary buttons (Create, Save, Publish) */
+    [class*="ToolbarButton"], button[class*="Button"][class*="primary"],
+    a[class*="Button"][class*="primary"] {
+      background: var(--hb-gold) !important;
+      color: var(--hb-bg) !important;
+      border: none !important;
+      font-weight: 600 !important;
+      border-radius: 6px !important;
+    }
+    [class*="ToolbarButton"]:hover, button[class*="Button"][class*="primary"]:hover {
+      background: var(--hb-gold-bright) !important;
+    }
+
+    /* Secondary/ghost buttons */
+    button, [class*="Button"] {
+      color: var(--hb-text) !important;
+      border-color: var(--hb-border) !important;
+    }
+    button:hover, [class*="Button"]:hover {
+      background: var(--hb-gold-dim) !important;
+    }
+
+    /* Toolbar / editor toolbar */
+    [class*="Toolbar"], [class*="EditorToolbar"] {
+      background: var(--hb-surface) !important;
+      border-color: var(--hb-border) !important;
+    }
+
+    /* Preview pane */
+    [class*="PreviewPane"], [class*="Preview"] iframe {
+      background: var(--hb-surface) !important;
+    }
+
+    /* Dropdown menus */
+    [class*="Dropdown"], [class*="Menu"], ul[role="listbox"] {
+      background: var(--hb-surface2) !important;
+      border: 1px solid var(--hb-border) !important;
+      color: var(--hb-text) !important;
+    }
+    [class*="Dropdown"] li:hover, [class*="Menu"] li:hover {
+      background: var(--hb-gold-dim) !important;
+      color: var(--hb-gold) !important;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--hb-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--hb-border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--hb-gold); }
+
+    /* Links */
+    a { color: var(--hb-gold) !important; }
+    a:hover { color: var(--hb-gold-bright) !important; }
+
+    /* Headings inside CMS */
+    h1, h2, h3, h4 { color: var(--hb-text) !important; }
+
+    /* Collection header */
+    [class*="CollectionTop"], [class*="ViewHeader"] {
+      background: var(--hb-surface) !important;
+      border-bottom: 1px solid var(--hb-border) !important;
+    }
+
+    /* Toggle/boolean widgets */
+    [class*="Toggle"][class*="active"], [class*="Toggle"][class*="checked"] {
+      background: var(--hb-gold) !important;
+    }
+
+    /* Status indicators */
+    [class*="StatusPublished"] { color: #7ec49a !important; }
+    [class*="StatusDraft"] { color: var(--hb-gold) !important; }
+  </style>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script src="https://unpkg.com/decap-cms@3.3.3/dist/decap-cms.js"></script>
 </body>
 </html>

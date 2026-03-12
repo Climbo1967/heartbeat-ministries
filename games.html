@@ -746,6 +746,61 @@ function renderScramble() {
 renderScramble();
 // ── Helper ──
 function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ── CMS Data Loader ── */
+(async function loadCmsGames() {
+  try {
+    const res = await fetch('/cms-data.json');
+    if (!res.ok) return;
+    const cms = await res.json();
+
+    // Toggle game tabs based on games settings
+    if (cms.games) {
+      const gameMap = {
+        trivia: 'trivia', memory_verse: 'memory', crossword: 'crossword',
+        word_scramble: 'scramble', who_am_i: 'whoami', fill_blank: 'fillin', word_search: 'wordsearch'
+      };
+      Object.entries(gameMap).forEach(([key, tabId]) => {
+        if (cms.games[key] === false) {
+          const tab = document.querySelector('.game-tab[data-game="' + tabId + '"]');
+          const panel = document.getElementById('panel-' + tabId);
+          if (tab) tab.style.display = 'none';
+          if (panel) panel.style.display = 'none';
+        }
+      });
+      // Ensure at least one tab is active
+      const visibleTabs = document.querySelectorAll('.game-tab:not([style*="display: none"])');
+      const anyActive = document.querySelector('.game-tab.active:not([style*="display: none"])');
+      if (!anyActive && visibleTabs.length > 0) {
+        visibleTabs[0].click();
+      }
+    }
+
+    // Replace trivia questions from CMS
+    if (cms.trivia && cms.trivia.length > 0) {
+      triviaQuestions.length = 0;
+      cms.trivia.forEach(t => triviaQuestions.push(t));
+      shuffled.length = 0;
+      triviaQuestions.forEach(t => shuffled.push(t));
+      shuffled.sort(() => Math.random() - 0.5);
+      tIdx = 0; tCorrect = 0; tWrong = 0; tStreak = 0;
+      document.getElementById('t-correct').textContent = 0;
+      document.getElementById('t-wrong').textContent = 0;
+      document.getElementById('t-streak').textContent = 0;
+      renderTrivia();
+    }
+
+    // Replace memory verses from CMS
+    if (cms.memoryVerses && cms.memoryVerses.length > 0) {
+      memVerses.length = 0;
+      cms.memoryVerses.forEach(v => memVerses.push(v));
+      memIdx = 0;
+      renderMemory();
+    }
+  } catch(e) {
+    console.log('CMS games data not loaded, using defaults');
+  }
+})();
 </script>
 </body>
 </html>

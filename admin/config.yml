@@ -81,6 +81,40 @@ collections:
           - { label: "Contact Email", name: "email", widget: "string", default: "support@2bcreations.com" }
           - { label: "Additional Info", name: "additional", widget: "text", required: false }
 
+  # ── Trivia Questions ──
+  - name: "trivia"
+    label: "Trivia Questions"
+    folder: "content/trivia"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{fields.q}}"
+    sortable_fields: ['order']
+    fields:
+      - { label: "Question", name: "q", widget: "string" }
+      - label: "Answer Options"
+        name: "opts"
+        widget: "list"
+        field: { label: "Option", name: "opt", widget: "string" }
+        hint: "Add exactly 4 answer options"
+      - { label: "Correct Answer Index", name: "ans", widget: "number", default: 0, hint: "0-based index: 0 = first option, 1 = second, etc." }
+      - { label: "Bible Reference", name: "ref", widget: "string" }
+      - { label: "Explanation", name: "explain", widget: "text", hint: "Shown after the player answers" }
+      - { label: "Order", name: "order", widget: "number", default: 0, hint: "Lower numbers appear first" }
+
+  # ── Memory Verses ──
+  - name: "memory-verse"
+    label: "Memory Verses"
+    folder: "content/memory-verse"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{fields.ref}}"
+    sortable_fields: ['order']
+    fields:
+      - { label: "Reference", name: "ref", widget: "string", hint: "e.g. John 3:16" }
+      - { label: "Verse Text", name: "text", widget: "text" }
+      - { label: "Difficulty", name: "difficulty", widget: "select", options: ["easy", "medium", "hard"], default: "easy" }
+      - { label: "Order", name: "order", widget: "number", default: 0, hint: "Lower numbers appear first" }
+
   # ── Games Settings ──
   - name: "games"
     label: "Games Settings"
