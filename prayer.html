@@ -131,15 +131,19 @@ document.getElementById('prayerForm').addEventListener('submit', async function(
   var urgent = formData.get('urgent') === 'on';
 
   // Save to Supabase so admin panel can see it
+  var sbOk = false;
   try {
     var SB_URL = 'https://qtugmhjvpghlhmthnzog.supabase.co';
     var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0dWdtaGp2cGdobGhtdGhuem9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NTIzMjEsImV4cCI6MjA4NTQyODMyMX0.aEj3zIF8yJj0Gf1fxbp1O1Uv3Opd-qDaa5CocXEuCc4';
     var sbRes = await fetch(SB_URL + '/rest/v1/prayer_requests', {
       method: 'POST',
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
       body: JSON.stringify({ name: name, email: email, request: request, privacy: privacy, urgent: urgent })
     });
-    if (!sbRes.ok) console.error('Supabase error:', sbRes.status, await sbRes.text());
+    var sbBody = await sbRes.text();
+    console.log('Supabase status:', sbRes.status, 'body:', sbBody);
+    if (!sbRes.ok) { console.error('Supabase error:', sbRes.status, sbBody); }
+    else { sbOk = true; }
   } catch (err) { console.error('Supabase fetch failed:', err); }
 
   // Also submit to Netlify Forms (triggers email notification)
