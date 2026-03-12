@@ -9,9 +9,7 @@
   "dependencies": {
     "@11ty/eleventy": "^2.0.1",
     "@supabase/supabase-js": "^2.45.0",
+    "esbuild": "^0.20.0",
     "marked": "^17.0.4"
-  },
-  "devDependencies": {
-    "esbuild": "^0.20.0"
   }
 }
