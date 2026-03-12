@@ -337,9 +337,8 @@ function ScripturePanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update scripture ' + dateStr);
-      toast('Scripture saved! Saved to GitHub.');
+      toast('Scripture saved! Site will rebuild in ~1 min.');
       setEditing(null);
-      setTimeout(loadScriptures, 2000);
     } catch (e) {
       toast('Error: ' + e.message);
     }
@@ -455,9 +454,8 @@ function InspirationPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update inspiration: ' + form.title);
-      toast('Inspiration saved! Saved to GitHub.');
+      toast('Inspiration saved! Site will rebuild in ~1 min.');
       setEditing(null);
-      setTimeout(loadItems, 2000);
     } catch (e) {
       toast('Error: ' + e.message);
     }
@@ -563,9 +561,8 @@ function BlogPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update blog: ' + form.title);
-      toast('Blog post saved! Saved to GitHub.');
+      toast('Blog post saved! Site will rebuild in ~1 min.');
       setEditing(null);
-      setTimeout(loadPosts, 2000);
     } catch (e) {
       toast('Error: ' + e.message);
     }
@@ -767,7 +764,7 @@ function HeroPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update hero settings');
-      toast('Hero section saved! Saved to GitHub.');
+      toast('Hero section saved! Site will rebuild in ~1 min.');
     } catch (e) {
       toast('Error: ' + e.message);
     }
@@ -835,7 +832,7 @@ function AboutPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update about settings');
-      toast('About section saved! Saved to GitHub.');
+      toast('About section saved! Site will rebuild in ~1 min.');
     } catch (e) {
       toast('Error: ' + e.message);
     }
@@ -905,7 +902,7 @@ function GamesPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update games settings');
-      toast('Games settings saved!');
+      toast('Games settings saved! Site will rebuild in ~1 min.');
     } catch (e) {
       toast('Error: ' + e.message);
     }
@@ -939,7 +936,7 @@ function GamesPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update trivia: ' + triviaForm.q);
-      toast('Trivia question saved!');
+      toast('Trivia question saved! Site will rebuild in ~1 min.');
       setEditingTrivia(null);
     } catch (e) {
       toast('Error: ' + e.message);
@@ -969,7 +966,7 @@ function GamesPanel({ toast }) {
         if (existing) sha = existing.sha;
       } catch (e) {}
       await putFile(path, content, sha, 'Update memory verse: ' + verseForm.ref);
-      toast('Memory verse saved!');
+      toast('Memory verse saved! Site will rebuild in ~1 min.');
       setEditingVerse(null);
     } catch (e) {
       toast('Error: ' + e.message);
