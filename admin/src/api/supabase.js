@@ -44,3 +44,10 @@ export async function deletePrayer(id) {
     method: 'DELETE'
   });
 }
+
+// Total site views. Public pages increment via the bump_counter RPC;
+// the number is read (and shown) only here in the admin.
+export async function fetchSiteViews() {
+  const rows = await supabaseRequest("site_counter?id=eq.total&select=views");
+  return (rows && rows[0] && rows[0].views) || 0;
+}

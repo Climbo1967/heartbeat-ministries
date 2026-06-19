@@ -4,7 +4,7 @@
 
 import { getCurrentUser, getJwt, logout, getUserEmail } from './api/auth.js';
 import { getFile, putFile, deleteFile, listDir } from './api/git.js';
-import { fetchPrayers, updatePrayerStatus, deletePrayer } from './api/supabase.js';
+import { fetchPrayers, updatePrayerStatus, deletePrayer, fetchSiteViews } from './api/supabase.js';
 import {
   buildScriptureMd, buildInspirationMd, buildBlogMd,
   buildTriviaMd, buildMemoryVerseMd, buildSettingsJson, slugify
@@ -250,7 +250,18 @@ function useCmsData() {
 // ─── Dashboard Panel ─────────────────────────────────────────────
 function DashboardPanel({ cmsData }) {
   const d = cmsData || {};
+  const [views, setViews] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    fetchSiteViews()
+      .then(v => { if (active) setViews(v); })
+      .catch(() => { if (active) setViews(null); });
+    return () => { active = false; };
+  }, []);
+
   const stats = [
+    { label: 'Site Views', value: views == null ? '—' : views.toLocaleString() },
     { label: 'Scriptures', value: (d.scriptures || []).length },
     { label: 'Inspirations', value: (d.inspirations || []).length },
     { label: 'Blog Posts', value: (d.posts || []).length },

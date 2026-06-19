@@ -213,6 +213,22 @@
   </style>
 </head>
 <body>
+<!-- Site view counter — increments total views in Supabase. The number is only displayed in /admin (see DashboardPanel). -->
+<script>
+(function(){
+  try{
+    fetch('https://qtugmhjvpghlhmthnzog.supabase.co/rest/v1/rpc/bump_counter',{
+      method:'POST',
+      headers:{
+        'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0dWdtaGp2cGdobGhtdGhuem9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NTIzMjEsImV4cCI6MjA4NTQyODMyMX0.aEj3zIF8yJj0Gf1fxbp1O1Uv3Opd-qDaa5CocXEuCc4',
+        'Content-Type':'application/json'
+      },
+      body:'{}',
+      keepalive:true
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
   <div class="ambient" aria-hidden="true">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
