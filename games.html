@@ -13,6 +13,19 @@
   <meta property="og:url" content="https://www.heartbeat-ministries.com/games.html" />
   <meta property="og:image" content="https://www.heartbeat-ministries.com/og-image.jpg" />
   <meta name="theme-color" content="#06090f" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Heartbeat" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function () {});
+      });
+    }
+  </script>
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAG/klEQVR42qWXyY8d1RXGf3eq4dUbesTtAdM2YCRAcUBEijKo24lIFohdRJRNJMI+/0CkiF7lP8guiyibKMoEmyiKADdmCAGEQRDCYGwHt3t83a/fe131qm7de7N4HaQg03E3Rypd6d7SOV993zmn7hEc0r7+yA+DdTVlbamdx+NwbvwIAVc/ek4cxt9tvfzohZ/YQZ7r3Fa4qmKikREQWFfjvMMHqOqKEALeewIS51195YO/mi8N4PsLTwWjQh2E1MMiZ68cAYEsjtFC7bMQqJ3De491NSF4fBC1FEq/9fafDoyhDjr8zjd+9KtIy4eyWPupNJFSOCIJiVYIPJJAbCSJViRaExtFrCRaKWKtfDtJ5R3T95y+sfavZ78ohrzV5sLCggZoRYJWolDSY3TgzskOc502x9oNjjUTZhoRk7FiMlVMpYo7GhHHWw1mswYzjYRGpGkm0f/4/LzdcnMRWAZmOw3SKMXWFcFbJDA/0wGgv9fHuYDRGu8sAM5DQOCDZFAU1E6S6PhAifWtt8cQTrUUkdYMK49SEqMliQlkRjOdtAkElPRASllZqjrgEfgAWSww0jAoRvseF1lm+TYZeBqWLsCPn3gIW8H1T9bI+wV5UYMArQOxSYgjRRJptnvrJOkk1npsbSkqT1nHVFbg3ejwDCwuLgJLnLmwCM0O53Y2KXf77G12ybtbVLsDfDUiTQxVkbO28jat+C7uu/srFGVNXnny0lKV0Gy4fZ+wtHzbEoytlhnST+PbGdFkTDyvmcJDOcDtdZGjbQbdD1m87wnszgZTUxMonZH3cvrdgqoIOBGOkgP7h8KCrJC+AgIETUBB3ELGbQSnaZ94gDYZ+BVCbWFvB7V6DRE8Zd+T7VfB4QBcvAjA9eWXyDpNRv09tJbEkSSKFMoIdKxw1Oz0NkBKKAe05h8hPXkede4sreMbtHc38NlHn0nA0m0CeHocnz88+z7TzQYilLQTRbOhaaWGZqbJWg1qu8mLl57h3SurJJHk0cXvsvD4Dwgzp1FTd8PkvRyffxh4cpzZt0BwoASbVcJolBCqQFYJkjzQMDWZqZlsBYrBKi9/MOCD1ZpIQ/HyNaZnrjAzu0Hc+SfTD5zHxxP/pfUwEoyX3GuEVYyKwKASJEaQKUesAtu54GSnSW2hOwSEo7lecO3GiH+vW1pZzl2b/6AW4yZ18enDANhvhTJK8VE6rojgKAlYH0hEYNAvOXPvfTz51E8Z/u5Ndoo+dx4/Tm+k2O3X6N6I9T1D8MUB3/9/JGh1WiRJxnAQkLUdJ5urKaoCEzS1l2jTpgoah2JoBUOrGdaCuvJUymOtO3oZbvR6ZKYgkR6BwNU1SRSRxIZyd8D07CSbO1tIFRGkpleM8CZFYPG1J/eayqmjlOF4Mc7SaKS0GykBgZAKoxWJFqgspTXV5NO1VSQe6RyVq5FGEysFlUPHKZX3R2dgNjXMTbeZnEiBgBcKW9XEMqCFwRV98j3Huak+8cQqL9w8Q6OhSYRhLy8xaYzz5YEA5BcmIfDgiRatYNla36K/O0C5kjs6EbIuyZTnxPxJlJYMq5jtIsMHTxJLmrEkaxgi6UmMPjoD3U9vokyDrd1d+pVAmoj7757j7IkWSSzJOk2KPOfmIGbPHieEPRIDzVRjdGD51UucPn3mCH/D/Z51/1yCMCmd1GGDwEQaFXLKbonJYnw1orKOQI0QDq1jXn/zNb55/mvcuPEpr7/5Ijvdrf3ufvHwDMwc6zDRzmj3I5QxJFmCECCcxUSCUW8DozW2yhkOujRmz3LxjddI7YjLn1xnZXuL3F4eO1tePmQjWoLpmYSGMQRpkbGhGFWUhcNIUM0mndkpNIIkbRE5x80rbzHavsmv17fw1EgfWNveHMc/rAQAjciStBNEFuElZG3DKK/ZXL1OQ8zx4XsFr751mZX1Lrtb19HFOpNJi4aqOZZJpMxYHWrWejssLNyahAPuhEsk52aQ7SbR7hAVafCCv//5NV68eIlvfe/bPPjVBUTUIU5KYhW49+QccxOKxx6ZQglBCI7r6wWXrq18dtG9TQDjhJF2BKVE5Tnvvf4hoh7xzF+eR5om77y9wlbvFTY3rrK2tgHWc8+pO6mrbVbX+nRMoLSe9e4RGpG4sFQDrL47IGkHnlt+hd/+7QVmOwnzs4bdUc4771/m+VdfojeqmZMw0oI3rlasb+e8HAWOZYGZdkQIYwBLy9RHGs3++PNfhF/+/je1ijMtVclwuIHzilZqODWRcm7Wo5Th442KVDpsmbOVC3qlrPdK9KWPb4gvPZw+/vB52y2l/nhtA+EtkUkAaCaa+ZkJrBuysr1LO405lgXOTsJsM6l/9uxHX344/bydmjkVPBJPoBkpptpTdIfbODug8pKbm5uH8vkf/bw40UVfAqcAAAAASUVORK5CYII=" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

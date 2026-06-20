@@ -15,6 +15,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("blog.html");
   eleventyConfig.addPassthroughCopy("index.html");
   eleventyConfig.addPassthroughCopy("readme.md");
+  eleventyConfig.addPassthroughCopy("manifest.webmanifest");
+  eleventyConfig.addPassthroughCopy("sw.js");
 
   // Generate cms-data.json after build
   eleventyConfig.on('eleventy.after', () => {
