@@ -649,8 +649,86 @@
   document.getElementById('giftDonateBtn').addEventListener('click', () => {
     const sum = giftCart.reduce((a, g) => a + g.price, 0);
     if (sum <= 0) return;
-    // ╔══════════════════════════════════════════════╗
+    // ╔══════════════════════════════╗
     // ║  STRIPE INTEGRATION POINT                    ║
     // ║  Replace this alert with Stripe Checkout     ║
     // ║  including line items for each gift          ║
-    // ╚═════════════════════════════════════════════�
+    // ╚══════════════════════════════╝
+    alert(`Thank you! This will connect to Stripe to complete your $${sum}.00 gift donation.\n\nStripe integration will be wired here.`);
+  });
+</script>
+  <!-- ════ PWA install affordance (Install App button + iOS fallback) ════ -->
+  <button id="hb-install" type="button" hidden aria-label="Install the Heartbeat app">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+    <span>Install&nbsp;App</span>
+  </button>
+  <div id="hb-ios" hidden role="dialog" aria-modal="true" aria-label="How to install Heartbeat">
+    <div class="hb-ios-card" role="document">
+      <button class="hb-ios-x" type="button" aria-label="Close">&times;</button>
+      <div class="hb-ios-h">Install Heartbeat</div>
+      <p class="hb-ios-sub">Add it to your Home Screen to use it like an app.</p>
+      <ol class="hb-ios-steps">
+        <li>Tap the <strong>Share</strong> icon
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m8 7 4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>
+          in Safari's toolbar.</li>
+        <li>Choose <strong>Add to Home Screen</strong>.</li>
+        <li>Tap <strong>Add</strong> — Heartbeat lands on your home screen.</li>
+      </ol>
+    </div>
+  </div>
+  <style>
+    #hb-install[hidden]{display:none}
+    #hb-install{position:fixed;z-index:10000;right:18px;bottom:18px;display:inline-flex;align-items:center;gap:8px;padding:12px 18px;font-family:'DM Sans',system-ui,-apple-system,sans-serif;font-size:15px;font-weight:600;letter-spacing:.01em;color:#06090f;background:linear-gradient(135deg,#f0c75e,#d4a84b);border:none;border-radius:999px;box-shadow:0 8px 30px rgba(212,168,75,.34),0 2px 8px rgba(0,0,0,.45);cursor:pointer;-webkit-tap-highlight-color:transparent;animation:hbInUp .5s cubic-bezier(.34,1.56,.64,1) both;transition:transform .2s,box-shadow .2s}
+    #hb-install:hover{transform:translateY(-2px);box-shadow:0 12px 38px rgba(212,168,75,.45),0 3px 10px rgba(0,0,0,.5)}
+    #hb-install:active{transform:translateY(0)}
+    #hb-install svg{display:block;flex:none}
+    @keyframes hbInUp{from{opacity:0;transform:translateY(18px) scale(.92)}to{opacity:1;transform:none}}
+    @media (max-width:520px){#hb-install{left:16px;right:16px;bottom:16px;justify-content:center;padding:14px;font-size:16px}}
+    @media (display-mode:standalone){#hb-install{display:none!important}}
+    #hb-ios[hidden]{display:none}
+    #hb-ios{position:fixed;inset:0;z-index:10001;display:flex;align-items:flex-end;justify-content:center;background:rgba(3,5,9,.62);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:hbFade .25s ease both}
+    @keyframes hbFade{from{opacity:0}to{opacity:1}}
+    .hb-ios-card{position:relative;width:100%;max-width:430px;margin:0 12px 12px;padding:24px 22px 28px;background:#0c1119;border:1px solid rgba(255,255,255,.12);border-radius:22px;box-shadow:0 -12px 44px rgba(0,0,0,.55);color:rgba(255,255,255,.92);font-family:'DM Sans',system-ui,-apple-system,sans-serif;animation:hbUp .38s cubic-bezier(.22,.68,0,1) both}
+    @keyframes hbUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+    .hb-ios-x{position:absolute;top:12px;right:12px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:24px;line-height:1;color:rgba(255,255,255,.55);background:rgba(255,255,255,.06);border:none;border-radius:50%;cursor:pointer}
+    .hb-ios-x:hover{color:#fff;background:rgba(255,255,255,.12)}
+    .hb-ios-h{font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:600;color:#f0c75e;line-height:1.1}
+    .hb-ios-sub{margin:6px 0 16px;font-size:14px;color:rgba(255,255,255,.6)}
+    .hb-ios-steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:12px}
+    .hb-ios-steps li{font-size:15px;line-height:1.5;color:rgba(255,255,255,.82)}
+    .hb-ios-steps strong{color:#fff;font-weight:600}
+    .hb-ios-steps svg{vertical-align:-3px;margin:0 2px;color:#8ec5d6}
+  </style>
+  <script>
+  (function(){
+    var btn=document.getElementById('hb-install');
+    var ios=document.getElementById('hb-ios');
+    if(!btn)return;
+    var deferred=null;
+    function standalone(){return window.matchMedia('(display-mode:standalone)').matches||window.navigator.standalone===true;}
+    if(standalone())return;
+    // Chromium (Android, desktop Chrome/Edge): capture the prompt, reveal the button.
+    window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;btn.hidden=false;});
+    btn.addEventListener('click',function(){
+      if(deferred){
+        deferred.prompt();
+        if(window.gtag)gtag('event','pwa_install_click');
+        deferred.userChoice.then(function(c){
+          if(window.gtag)gtag('event',c&&c.outcome==='accepted'?'pwa_install_accepted':'pwa_install_dismissed');
+          deferred=null;btn.hidden=true;
+        });
+      }else if(ios){ios.hidden=false;}
+    });
+    window.addEventListener('appinstalled',function(){btn.hidden=true;deferred=null;if(window.gtag)gtag('event','pwa_installed');});
+    // iOS Safari has no beforeinstallprompt — surface the button so users can get the Add-to-Home-Screen steps.
+    var ua=navigator.userAgent||'';
+    var isIOS=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+    var isSafari=/safari/i.test(ua)&&!/(chrome|crios|fxios|edgios|android)/i.test(ua);
+    if(isIOS&&isSafari)btn.hidden=false;
+    if(ios){ios.addEventListener('click',function(e){if(e.target===ios||e.target.classList.contains('hb-ios-x'))ios.hidden=true;});}
+  })();
+  </script>
+  <!-- ════ end PWA install affordance ════ -->
+
+</body>
+</html>
