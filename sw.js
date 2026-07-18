@@ -1,5 +1,5 @@
 /* Heartbeat Ministries — Service Worker */
-const VERSION = 'hb-v2';
+const VERSION = 'hb-v3';
 const STATIC_CACHE = `${VERSION}-static`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 
