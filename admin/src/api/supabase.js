@@ -45,9 +45,45 @@ export async function deletePrayer(id) {
   });
 }
 
-// Total site views. Public pages increment via the bump_counter RPC;
-// the number is read (and shown) only here in the admin.
+// Total site views (lifetime, includes bots/refreshes). Public pages
+// increment it via the log_page_view RPC; shown only here in the admin.
 export async function fetchSiteViews() {
   const rows = await supabaseRequest("site_counter?id=eq.total&select=views");
   return (rows && rows[0] && rows[0].views) || 0;
+}
+
+// ── Visitor tracking (page_views table, bots excluded) ──
+// Aggregate-only RPCs; raw rows are not anon-readable.
+
+// Per-page views + unique visitors for the last N days.
+export async function fetchPageStats(days = 7) {
+  return supabaseRequest('rpc/page_view_stats', {
+    method: 'POST',
+    body: JSON.stringify({ p_days: days })
+  });
+}
+
+// Overall views + unique visitors for the last N days.
+export async function fetchViewSummary(days = 7) {
+  const rows = await supabaseRequest('rpc/page_view_summary', {
+    method: 'POST',
+    body: JSON.stringify({ p_days: days })
+  });
+  return (rows && rows[0]) || { views: 0, visitors: 0 };
+}
+
+// Per-day views + visitors (zero-filled, Central time) for the last N days.
+export async function fetchDailyViews(days = 7) {
+  return supabaseRequest('rpc/page_view_daily', {
+    method: 'POST',
+    body: JSON.stringify({ p_days: days })
+  });
+}
+
+// Top traffic sources for the last N days ('(direct)' = typed/bookmark).
+export async function fetchTopReferrers(days = 30) {
+  return supabaseRequest('rpc/page_view_referrers', {
+    method: 'POST',
+    body: JSON.stringify({ p_days: days })
+  });
 }

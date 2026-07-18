@@ -4,7 +4,7 @@
 
 import { getCurrentUser, getJwt, logout, getUserEmail } from './api/auth.js';
 import { getFile, putFile, deleteFile, listDir } from './api/git.js';
-import { fetchPrayers, updatePrayerStatus, deletePrayer, fetchSiteViews } from './api/supabase.js';
+import { fetchPrayers, updatePrayerStatus, deletePrayer, fetchSiteViews, fetchPageStats, fetchViewSummary, fetchDailyViews, fetchTopReferrers } from './api/supabase.js';
 import {
   buildScriptureMd, buildInspirationMd, buildBlogMd,
   buildTriviaMd, buildMemoryVerseMd, buildSettingsJson, slugify
@@ -248,15 +248,58 @@ function useCmsData() {
 }
 
 // ─── Dashboard Panel ─────────────────────────────────────────────
+const PAGE_LABELS = { home: 'Home', blog: 'Blog', games: 'Games & Trivia', give: 'Give', prayer: 'Prayer' };
+const DAY_ABBR = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+// Parse a 'YYYY-MM-DD' date string without timezone shifting.
+function dayParts(iso) {
+  const [y, m, dd] = (iso || '').split('-').map(Number);
+  const dt = new Date(y, (m || 1) - 1, dd || 1);
+  return { abbr: DAY_ABBR[dt.getDay()], num: dd };
+}
+
+function DailyBars({ daily }) {
+  const max = Math.max(1, ...daily.map(r => Number(r.views) || 0));
+  return (
+    <div style={{display:'flex', alignItems:'flex-end', gap:10, height:110, marginTop:8}}>
+      {daily.map(r => {
+        const v = Number(r.views) || 0;
+        const h = v === 0 ? 2 : Math.max(6, Math.round((v / max) * 72));
+        const p = dayParts(r.day);
+        return (
+          <div key={r.day} style={{flex:1, display:'flex', flexDirection:'column', alignItems:'center', gap:4}}
+               title={r.day + ': ' + v + ' views, ' + (Number(r.visitors) || 0) + ' visitors'}>
+            <div style={{fontSize:'.75rem', color: v ? 'var(--gold)' : 'var(--text2)'}}>{v}</div>
+            <div style={{width:'100%', maxWidth:34, height:h, borderRadius:'4px 4px 0 0',
+                         background: v ? 'var(--gold)' : 'var(--border)', opacity: v ? 1 : .6}} />
+            <div style={{fontSize:'.68rem', color:'var(--text2)'}}>{p.abbr} {p.num}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function DashboardPanel({ cmsData }) {
   const d = cmsData || {};
   const [views, setViews] = useState(null);
+  const [summary, setSummary] = useState(null);
+  const [pageStats, setPageStats] = useState(null);
+  const [daily, setDaily] = useState(null);
+  const [referrers, setReferrers] = useState(null);
+  const [trackErr, setTrackErr] = useState(false);
 
   useEffect(() => {
     let active = true;
     fetchSiteViews()
       .then(v => { if (active) setViews(v); })
       .catch(() => { if (active) setViews(null); });
+    Promise.all([fetchViewSummary(7), fetchPageStats(7), fetchDailyViews(7), fetchTopReferrers(30)])
+      .then(([s, p, dl, rf]) => {
+        if (!active) return;
+        setSummary(s); setPageStats(p || []); setDaily(dl || []); setReferrers(rf || []);
+      })
+      .catch(() => { if (active) setTrackErr(true); });
     return () => { active = false; };
   }, []);
 
@@ -268,6 +311,16 @@ function DashboardPanel({ cmsData }) {
     { label: 'Trivia Qs', value: (d.trivia || []).length },
     { label: 'Memory Verses', value: (d.memoryVerses || []).length },
   ];
+
+  const today = daily && daily.length ? daily[daily.length - 1] : null;
+  const trackCards = summary ? [
+    { label: 'Views (7 days)', value: Number(summary.views).toLocaleString() },
+    { label: 'Visitors (7 days)', value: Number(summary.visitors).toLocaleString() },
+    { label: 'Views Today', value: today ? Number(today.views).toLocaleString() : '0' },
+    { label: 'Visitors Today', value: today ? Number(today.visitors).toLocaleString() : '0' },
+  ] : [];
+  const anyViews = pageStats && pageStats.length > 0;
+
   return (
     <div>
       <div className="card-grid">
@@ -277,6 +330,82 @@ function DashboardPanel({ cmsData }) {
             <div className="stat-label">{s.label}</div>
           </div>
         ))}
+      </div>
+
+      <div className="card">
+        <h3 style={{fontFamily:'var(--font-display)',fontSize:'1.2rem',marginBottom:4,color:'var(--gold)'}}>
+          Visitor Tracking
+        </h3>
+        <p style={{color:'var(--text2)',fontSize:'.8rem',marginBottom:14}}>
+          Real people only — bots and crawlers are filtered out. (The lifetime Site Views counter above still counts everything.)
+        </p>
+        {trackErr && (
+          <p style={{color:'var(--text2)',fontSize:'.9rem'}}>Couldn't load tracking data. Refresh to try again.</p>
+        )}
+        {!trackErr && !summary && (
+          <p style={{color:'var(--text2)',fontSize:'.9rem'}}>Loading…</p>
+        )}
+        {summary && (
+          <div>
+            <div className="card-grid" style={{marginBottom:8}}>
+              {trackCards.map(s => (
+                <div className="stat-card" key={s.label}>
+                  <div className="stat-value">{s.value}</div>
+                  <div className="stat-label">{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{marginTop:10}}>
+              <div className="form-label">Last 7 Days</div>
+              <DailyBars daily={daily || []} />
+            </div>
+
+            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))', gap:20, marginTop:18}}>
+              <div>
+                <div className="form-label">Pages (7 days)</div>
+                {anyViews ? (
+                  <table className="data-table">
+                    <thead><tr><th>Page</th><th style={{textAlign:'right'}}>Views</th><th style={{textAlign:'right'}}>Visitors</th></tr></thead>
+                    <tbody>
+                      {pageStats.map(r => (
+                        <tr key={r.page}>
+                          <td>{PAGE_LABELS[r.page] || r.page}</td>
+                          <td style={{textAlign:'right'}}>{Number(r.views).toLocaleString()}</td>
+                          <td style={{textAlign:'right'}}>{Number(r.visitors).toLocaleString()}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p style={{color:'var(--text2)',fontSize:'.85rem'}}>No visits recorded yet this week.</p>
+                )}
+              </div>
+              <div>
+                <div className="form-label">Traffic Sources (30 days)</div>
+                {referrers && referrers.length ? (
+                  <table className="data-table">
+                    <thead><tr><th>Source</th><th style={{textAlign:'right'}}>Views</th></tr></thead>
+                    <tbody>
+                      {referrers.map(r => (
+                        <tr key={r.source}>
+                          <td>{r.source === '(direct)' ? 'Direct / bookmark' : r.source}</td>
+                          <td style={{textAlign:'right'}}>{Number(r.views).toLocaleString()}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p style={{color:'var(--text2)',fontSize:'.85rem'}}>No traffic sources yet.</p>
+                )}
+              </div>
+            </div>
+
+            <p style={{color:'var(--text2)',fontSize:'.72rem',marginTop:14}}>
+              Tracking began July 18, 2026 · days are US Central time · a "visitor" is a unique browser per page.
+            </p>
+          </div>
+        )}
       </div>
       <div className="card">
         <h3 style={{fontFamily:'var(--font-display)',fontSize:'1.2rem',marginBottom:12,color:'var(--gold)'}}>
